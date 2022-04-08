@@ -694,7 +694,7 @@ class properties:
                 inside = 'screen'
                 parent_element_width = self.driver.find_element(By.TAG_NAME, "body").size['width']
 
-            elif type(inside.element) == tuple:
+            elif type(inside.element) is tuple:
                 parent_element_width = inside.get_width()
 
             try:
@@ -735,7 +735,7 @@ class properties:
             if inside is None or inside == 'screen':
                 inside = 'screen'
                 parent_element_height = self.driver.find_element(By.TAG_NAME, "body").size['height']
-            elif type(inside.element) == tuple:
+            elif type(inside.element) is tuple:
                 parent_element_height = inside.get_height()
 
             try:
