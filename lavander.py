@@ -85,9 +85,10 @@ class page:
         page.driver.executeScript("arguments[0].setAttribute('style', 'border:2px solid red; background:yellow')",
                                  _find_element_(page.driver, page._element_));
 
-        assert (expected_width - approx) <= page.WIDTH <= (
-                expected_width + approx), f"Actual width Of {page._element_} '{page.WIDTH}' not in range" \
-                                          f" {expected_width - approx}, {expected_width + approx}" if error_message == "" else error_message
+        if not (expected_width - approx) <= page.WIDTH <= (
+                expected_width + approx):
+            raise AssertionError(f"Actual width Of {page._element_} '{page.WIDTH}' not in range" \
+                                          f" {expected_width - approx}, {expected_width + approx}" if error_message == "" else error_message)
 
         return self
 
@@ -104,9 +105,10 @@ class page:
 
             Returns: object of the inherited page to facilitate method chaining
         """
-        assert (expected_height - approx) <= page.HEIGHT <= (
-                expected_height + approx), f"Actual height Of {page._element_} '{page.HEIGHT}' not in range " \
-                                           f"{expected_height - approx}, {expected_height + approx}" if error_message == "" else error_message
+        if not (expected_height - approx) <= page.HEIGHT <= (
+                expected_height + approx):
+            raise AssertionError(f"Actual height Of {page._element_} '{page.HEIGHT}' not in range " \
+                                           f"{expected_height - approx}, {expected_height + approx}" if error_message == "" else error_message)
 
         return self
 
@@ -127,9 +129,10 @@ class page:
         another_dimension = _find_element_(page.driver, inside).rect
         actual_top = page.TOP - round(another_dimension['y'], page._accuracy_)
 
-        assert (expected_top - approx) <= actual_top <= (
-                expected_top + approx), f"Actual top Of {page._element_} '{actual_top}' not in range " \
-                                        f"{expected_top - approx}, {expected_top + approx}" if error_message == "" else error_message
+        if not (expected_top - approx) <= actual_top <= (
+                expected_top + approx):
+            raise AssertionError(f"Actual top Of {page._element_} '{actual_top}' not in range " \
+                                        f"{expected_top - approx}, {expected_top + approx}" if error_message == "" else error_message)
 
         return self
 
@@ -151,9 +154,10 @@ class page:
         another_dimension = _find_element_(page.driver, inside).rect
         actual_left = page.LEFT - round(another_dimension['x'], page._accuracy_)
 
-        assert (expected_left - approx) <= actual_left <= (
-                expected_left + approx), f"Actual left Of {page._element_} '{actual_left}' not in range " \
-                                         f"{expected_left - approx}, {expected_left + approx}" if error_message == "" else error_message
+        if not (expected_left - approx) <= actual_left <= (
+                expected_left + approx):
+            raise AssertionError(f"Actual left Of {page._element_} '{actual_left}' not in range " \
+                                         f"{expected_left - approx}, {expected_left + approx}" if error_message == "" else error_message)
 
         return self
 
@@ -177,9 +181,10 @@ class page:
         actual_right = round(another_dimension['width'], page._accuracy_) - (
             (page.LEFT - (round(another_dimension['x'], page._accuracy_)) + page.WIDTH))
 
-        assert (expected_right - approx) <= actual_right <= (
-                expected_right + approx), f"Actual right Of {page._element_} '{actual_right}' not in range" \
-                                          f" {expected_right - approx}, {expected_right + approx}" if error_message == "" else error_message
+        if not (expected_right - approx) <= actual_right <= (
+                expected_right + approx):
+            raise AssertionError(f"Actual right Of {page._element_} '{actual_right}' not in range" \
+                                          f" {expected_right - approx}, {expected_right + approx}" if error_message == "" else error_message)
 
         return self
 
@@ -203,9 +208,10 @@ class page:
         actual_bottom = round(another_dimension['height'], page._accuracy_) - (
                 (page.TOP - round(another_dimension['y'], page._accuracy_)) + page.HEIGHT)
 
-        assert (expected_bottom - approx) <= actual_bottom <= (
-                expected_bottom + approx), f"Actual bottom Of {page._element_} '{actual_bottom}' not in range" \
-                                           f" {expected_bottom - approx}, {expected_bottom + approx}" if error_message == "" else error_message
+        if not (expected_bottom - approx) <= actual_bottom <= (
+                expected_bottom + approx):
+            raise AssertionError(f"Actual bottom Of {page._element_} '{actual_bottom}' not in range" \
+                                           f" {expected_bottom - approx}, {expected_bottom + approx}" if error_message == "" else error_message)
 
         return self
 
@@ -222,8 +228,9 @@ class page:
                     operand: accepts only int or float values
                     error_message: user defined error message is passed as a string
             """
-            assert self.operand_x < operand, self.error + f" less than {operand}" \
-                if error_message == "" else error_message
+            if self.operand_x >= operand:
+                raise AssertionError(self.error + f" less than {operand}" \
+                if error_message == "" else error_message)
 
         def is_greater_than(self, operand, error_message: str = ""):
             """
@@ -233,8 +240,9 @@ class page:
                     operand: accepts only int or float values
                     error_message: user defined error message is passed as a string
             """
-            assert self.operand_x > operand, self.error + f" greater than {operand}" \
-                if error_message == "" else error_message
+            if self.operand_x <= operand:
+                raise AssertionError(self.error + f" greater than {operand}" \
+                if error_message == "" else error_message)
 
         def equals(self, operand, error_message: str = ""):
             """
@@ -244,8 +252,9 @@ class page:
                     operand: accepts only int or float values
                     error_message: user defined error message is passed as a string
             """
-            assert self.operand_x == operand, self.error + f" equals to {operand}" \
-                if error_message == "" else error_message
+            if self.operand_x != operand:
+                raise AssertionError(self.error + f" equals to {operand}" \
+                if error_message == "" else error_message)
 
         def is_greater_than_or_equals(self, operand, error_message: str = ""):
             """
@@ -255,8 +264,9 @@ class page:
                     operand: accepts only int or float values
                     error_message: user defined error message is passed as a string
             """
-            assert self.operand_x >= operand, self.error + f" greater than or equals to {operand}" \
-                if error_message == "" else error_message
+            if self.operand_x < operand:
+                raise AssertionError(self.error + f" greater than or equals to {operand}" \
+                if error_message == "" else error_message)
 
         def is_less_than_or_equals(self, operand, error_message: str = ""):
             """
@@ -266,8 +276,9 @@ class page:
                     operand: accepts only int or float values
                     error_message: user defined error message is passed as a string
             """
-            assert self.operand_x <= operand, self.error + f" lesser than or equals to {operand}" \
-                if error_message == "" else error_message
+            if self.operand_x > operand:
+                raise AssertionError(self.error + f" lesser than or equals to {operand}" \
+                if error_message == "" else error_message)
 
     @staticmethod
     def check_width():
@@ -355,13 +366,14 @@ class page:
         another_dimension = _find_element_(page.driver, element).rect
 
         if aligned_all:
-            assert page.TOP == round(another_dimension['y'], page._accuracy_) and \
+            if not (page.TOP == round(another_dimension['y'], page._accuracy_) and \
                    page.TOP + page.HEIGHT == round(another_dimension['y'], page._accuracy_) + \
-                   round(another_dimension['height']), f"{page._element_} is not aligned by all sides with {element}"
+                   round(another_dimension['height'])):
+                raise AssertionError(f"{page._element_} is not aligned by all sides with {element}")
 
-        assert page.LEFT < round(another_dimension['x'], page._accuracy_) and (
-                page.LEFT + page.WIDTH) <= round(another_dimension['x'], page._accuracy_), \
-            f"{page._element_} not in left of {element}" if error_message == "" else error_message
+        if not (page.LEFT < round(another_dimension['x'], page._accuracy_) and (
+                page.LEFT + page.WIDTH) <= round(another_dimension['x'], page._accuracy_)):
+            raise AssertionError(f"{page._element_} not in left of {element}" if error_message == "" else error_message)
 
         return self
 
@@ -381,14 +393,15 @@ class page:
         another_dimension = _find_element_(page.driver, element).rect
 
         if aligned_all:
-            assert page.TOP == round(another_dimension['y'], page._accuracy_) and \
+            if not (page.TOP == round(another_dimension['y'], page._accuracy_) and \
                    page.TOP + page.HEIGHT == round(another_dimension['y'], page._accuracy_) + \
                    round(
-                       another_dimension['height']), f"{page._element_} is not aligned by all sides with {element}"
+                       another_dimension['height'])):
+                raise AssertionError(f"{page._element_} is not aligned by all sides with {element}")
 
-        assert page.LEFT >= round(another_dimension['x'], page._accuracy_) and (
-                page.LEFT + page.WIDTH) > round(another_dimension['x'], page._accuracy_), \
-            f"{page._element_} not in right of {element}" if error_message == "" else error_message
+        if not (page.LEFT >= round(another_dimension['x'], page._accuracy_) and (
+                page.LEFT + page.WIDTH) > round(another_dimension['x'], page._accuracy_)):
+            raise AssertionError(f"{page._element_} not in right of {element}" if error_message == "" else error_message)
 
         return self
 
@@ -408,13 +421,14 @@ class page:
         another_dimension = _find_element_(page.driver, element).rect
 
         if aligned_all:
-            assert page.LEFT == round(another_dimension['x'], page._accuracy_) and \
+            if not (page.LEFT == round(another_dimension['x'], page._accuracy_) and \
                    page.LEFT + page.WIDTH == round(another_dimension['x'], page._accuracy_) + \
-                   round(another_dimension['width']), f"{page._element_} is not aligned by all sides with {element}"
+                   round(another_dimension['width'])):
+                raise AssertionError(f"{page._element_} is not aligned by all sides with {element}")
 
-        assert page.TOP < round(another_dimension['y'], page._accuracy_) and \
-               (page.TOP + page.HEIGHT) <= round(another_dimension['y'], page._accuracy_), \
-            f"{page._element_} not above {element}" if error_message == "" else error_message
+        if not (page.TOP < round(another_dimension['y'], page._accuracy_) and \
+               (page.TOP + page.HEIGHT) <= round(another_dimension['y'], page._accuracy_)):
+            raise AssertionError(f"{page._element_} not above {element}" if error_message == "" else error_message)
 
         return self
 
@@ -434,13 +448,14 @@ class page:
         another_dimension = _find_element_(page.driver, element).rect
 
         if aligned_all:
-            assert page.LEFT == round(another_dimension['x'], page._accuracy_) and \
+            if not (page.LEFT == round(another_dimension['x'], page._accuracy_) and \
                    page.LEFT + page.WIDTH == round(another_dimension['x'], page._accuracy_) + \
-                   round(another_dimension['width']), f"{page._element_} is not aligned by all sides with {element}"
+                   round(another_dimension['width'])):
+                raise AssertionError(f"{page._element_} is not aligned by all sides with {element}")
 
-        assert page.TOP > round(another_dimension['y'], page._accuracy_) and (
-                page.TOP + page.HEIGHT) >= round(another_dimension['y'], page._accuracy_), \
-            f"{page._element_} not below {element}" if error_message == "" else error_message
+        if not (page.TOP > round(another_dimension['y'], page._accuracy_) and (
+                page.TOP + page.HEIGHT) >= round(another_dimension['y'], page._accuracy_)):
+            raise AssertionError(f"{page._element_} not below {element}" if error_message == "" else error_message)
 
         return self
 
@@ -461,15 +476,15 @@ class page:
         else:
             another_dimension = _find_element_(page.driver, parent_element).rect
 
-            assert page.LEFT >= round(another_dimension['x'], page._accuracy_) and \
+            if not (page.LEFT >= round(another_dimension['x'], page._accuracy_) and \
                    (page.LEFT + page.WIDTH) <= (round(another_dimension['x'], page._accuracy_) +
                                                 round(another_dimension['width'],
                                                       page._accuracy_)) and page.TOP >= \
                    round(another_dimension['y'], page._accuracy_) and (page.TOP + page.HEIGHT) <= \
                    (round(another_dimension['y'], page._accuracy_) + round
-                   (another_dimension['height'], page._accuracy_)), \
-                f"{page._element_} is not inside {parent_element}" \
-                    if error_message == "" else error_message
+                   (another_dimension['height'], page._accuracy_))):
+                raise AssertionError(f"{page._element_} is not inside {parent_element}" \
+                    if error_message == "" else error_message)
 
         return self
 
@@ -490,7 +505,8 @@ class page:
             another_dimension = _find_element_(page.driver, inside).rect
             actual_top = page.TOP - round(another_dimension['y'], page._accuracy_)
             actual_bottom = round(another_dimension['height'], page._accuracy_) - (page.HEIGHT + actual_top)
-            assert actual_top == actual_bottom, f"{page._element_} is not centered vertically" if error_message == "" else error_message
+            if actual_top != actual_bottom:
+                raise AssertionError(f"{page._element_} is not centered vertically" if error_message == "" else error_message)
 
         return self
 
@@ -512,7 +528,8 @@ class page:
             another_dimension = _find_element_(page.driver, inside).rect
             actual_left = page.LEFT - round(another_dimension['x'], page._accuracy_)
             actual_right = round(another_dimension['width'], page._accuracy_) - (page.WIDTH + actual_left)
-            assert actual_left == actual_right, f"{page._element_} is not centered horizontally" if error_message == "" else error_message
+            if actual_left != actual_right:
+                raise AssertionError(f"{page._element_} is not centered horizontally" if error_message == "" else error_message)
 
         return self
 
@@ -538,5 +555,6 @@ class page:
                                             round(another_dimension['y'], page._accuracy_) + (
                                             round(another_dimension['height'], page._accuracy_) / 2))
 
-            assert parent_element_center == nested_element_center, f"{page._element_} is not centered inside " \
-                                                                   f"{inside}" if error_message == "" else error_message
+            if parent_element_center != nested_element_center:
+                raise AssertionError(f"{page._element_} is not centered inside " \
+                                                                   f"{inside}" if error_message == "" else error_message)
