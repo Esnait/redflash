@@ -139,7 +139,8 @@ class properties:
         win_lower_bound = win_upper_bound + win_height
 
         try:
-            assert win_left_bound <= elem_left_bound and win_right_bound >= elem_right_bound and win_upper_bound <= elem_top_bound and win_lower_bound >= elem_lower_bound, f"{self.element} is not visible inside the window"
+            if not (win_left_bound <= elem_left_bound and win_right_bound >= elem_right_bound and win_upper_bound <= elem_top_bound and win_lower_bound >= elem_lower_bound):
+                raise AssertionError(f"{self.element} is not visible inside the window")
         except AssertionError as E:
             print(E)
         return self
@@ -177,9 +178,9 @@ class properties:
             Reurns: object of the inherited page to facilitate method chaining
         """
         try:
-            assert (self.get_Xoffset() < element.get_Xoffset() and self.get_right_bottom_offset()[
-                'x'] <= element.get_Xoffset()), \
-                f"{self.element} is not left of {element.element}"
+            if not (self.get_Xoffset() < element.get_Xoffset() and self.get_right_bottom_offset()[
+                'x'] <= element.get_Xoffset()):
+                raise AssertionError(f"{self.element} is not left of {element.element}")
         except AssertionError as E:
             print(E)
         return self
@@ -194,9 +195,9 @@ class properties:
             Reurns: object of the inherited page to facilitate method chaining
         """
         try:
-            assert (self.get_Xoffset() >= element.get_get_Xoffset() and self.get_right_bottom_offset()['x'] >
-                    element.get_Xoffset()), \
-                f"{self.element} is not right of {element.element}"
+            if not (self.get_Xoffset() >= element.get_get_Xoffset() and self.get_right_bottom_offset()['x'] >
+                    element.get_Xoffset()):
+                raise AssertionError(f"{self.element} is not right of {element.element}")
         except AssertionError as E:
             print(E)
         return self
@@ -211,8 +212,8 @@ class properties:
             Reurns: object of the inherited page to facilitate method chaining
         """
         try:
-            assert self.get_Yoffset() + self.get_height() >= element.get_Yoffset(), \
-                f"{self.element} is not below {element.element}"
+            if self.get_Yoffset() + self.get_height() < element.get_Yoffset():
+                raise AssertionError(f"{self.element} is not below {element.element}")
         except AssertionError as E:
             print(E)
         return self
@@ -227,8 +228,8 @@ class properties:
             Reurns: object of the inherited page to facilitate method chaining
         """
         try:
-            assert self.get_Yoffset() + self.get_height() <= element.get_Yoffset(), \
-                f"{self.element} is not above {element.element}"
+            if self.get_Yoffset() + self.get_height() > element.get_Yoffset():
+                raise AssertionError(f"{self.element} is not above {element.element}")
         except AssertionError as E:
             print(E)
         return self
@@ -251,7 +252,8 @@ class properties:
             Reurns: object of the inherited page to facilitate method chaining
         """
         try:
-            assert self.get_text() == text, f"Actual text in {self.element} : '{self.get_text()}', got '{text}"
+            if self.get_text() != text:
+                raise AssertionError(f"Actual text in {self.element} : '{self.get_text()}', got '{text}")
         except AssertionError as E:
             print(E)
         return self
@@ -307,7 +309,8 @@ class properties:
             Returns: Oobject of the inherited page to facilitate method chaining
         """
         try:
-            assert self.get_font_style() == font_style, f"Actual font style in {self.element} : '{self.get_font_style()}', got '{font_style}"
+            if self.get_font_style() != font_style:
+                raise AssertionError(f"Actual font style in {self.element} : '{self.get_font_style()}', got '{font_style}")
         except AssertionError as E:
             print(E)
         return self
@@ -322,7 +325,8 @@ class properties:
             Returns: Oobject of the inherited page to facilitate method chaining
         """
         try:
-            assert self.get_font_size() == font_size, f"Actual font size in {self.element} : '{self.get_font_size()}', got '{font_size}"
+            if self.get_font_size() != font_size:
+                raise AssertionError(f"Actual font size in {self.element} : '{self.get_font_size()}', got '{font_size}")
         except AssertionError as E:
             print(E)
         return self
@@ -334,7 +338,8 @@ class properties:
             Returns: Oobject of the inherited page to facilitate method chaining
         """
         try:
-            assert self.driver.find_element(*self.element).is_selected(), f"{self.element} is not selected"
+            if not self.driver.find_element(*self.element).is_selected():
+                raise AssertionError(f"{self.element} is not selected")
         except AssertionError as E:
             print(E)
         return self
@@ -346,7 +351,8 @@ class properties:
             Returns: Oobject of the inherited page to facilitate method chaining
         """
         try:
-            assert self.driver.find_element(*self.element).is_displayed(), f"{self.element} is not displayed"
+            if not self.driver.find_element(*self.element).is_displayed():
+                raise AssertionError(f"{self.element} is not displayed")
         except AssertionError as E:
             print(E)
         return self
@@ -358,7 +364,8 @@ class properties:
             Returns: object of the inherited page to facilitate method chaining
         """
         try:
-            assert self.driver.find_element(*self.element).is_enabled(), f"{self.element} is not enabled"
+            if not self.driver.find_element(*self.element).is_enabled():
+                raise AssertionError(f"{self.element} is not enabled")
         except AssertionError as E:
             print(E)
         return self
@@ -386,7 +393,8 @@ class properties:
                 object of the inherited page to facilitate method chaining
         """
         try:
-            assert self.to_get_property(property_name) == property_value, f"Actual property of {self.element} is {property_name} : {self.to_get_property(property_name)}, but got {property_name} : {property_value}"
+            if self.to_get_property(property_name) != property_value:
+                raise AssertionError(f"Actual property of {self.element} is {property_name} : {self.to_get_property(property_name)}, but got {property_name} : {property_value}")
         except AssertionError as E:
             print(E)
         return self
@@ -414,8 +422,9 @@ class properties:
                 object of the inherited page to facilitate method chaining
         """
         try:
-            assert self.get_attribute(
-                attribute_name) == attribute_value, f"Actual property of {self.element} is {attribute_name} : {self.get_property(attribute_name)}, but got {attribute_name} : {attribute_value}"
+            if self.get_attribute(
+                attribute_name) != attribute_value:
+                raise AssertionError(f"Actual property of {self.element} is {attribute_name} : {self.get_property(attribute_name)}, but got {attribute_name} : {attribute_value}")
         except AssertionError as E:
             print(E)
         return self
@@ -450,42 +459,48 @@ class properties:
             if int(width[0]) <= actual_width <= int(width[1]):
                 flag = True
             try:
-                assert flag, f"Actual width {actual_width} is not in range of {int(width[0])} to {int(width[1])}"
+                if not flag:
+                    raise AssertionError(f"Actual width {actual_width} is not in range of {int(width[0])} to {int(width[1])}")
             except AssertionError as E:
                 print(E)
 
         elif operation == ">":
             width = int(width.replace('>', ''))
             try:
-                assert actual_width > width, f"Actual width {actual_width} is not greater than {width}"
+                if actual_width <= width:
+                    raise AssertionError(f"Actual width {actual_width} is not greater than {width}")
             except AssertionError as E:
                 print(E)
 
         elif operation == "<":
             width = int(width.replace('<', ''))
             try:
-                assert actual_width < width, f"Actual width {actual_width} is not lesser than {width}"
+                if actual_width >= width:
+                    raise AssertionError(f"Actual width {actual_width} is not lesser than {width}")
             except AssertionError as E:
                 print(E)
 
         elif operation == ">=":
             width = int(width.replace('>=', ''))
             try:
-                assert actual_width >= width, f"Actual width {actual_width} is lesser than {width}"
+                if actual_width < width:
+                    raise AssertionError(f"Actual width {actual_width} is lesser than {width}")
             except AssertionError as E:
                 print(E)
 
         elif operation == "<=":
             width = int(width.replace('<=', ''))
             try:
-                assert actual_width <= width, f"Actual width {actual_width} is greater than {width}"
+                if actual_width > width:
+                    raise AssertionError(f"Actual width {actual_width} is greater than {width}")
             except AssertionError as E:
                 print(E)
 
         elif width.strip().isnumeric():
             width = int(width)
             try:
-                assert actual_width - approx <= width <= actual_width + approx, f"Actual width is {actual_width}, got {width}"
+                if not actual_width - approx <= width <= actual_width + approx:
+                    raise AssertionError(f"Actual width is {actual_width}, got {width}")
             except AssertionError as E:
                 print(E)
 
@@ -526,42 +541,48 @@ class properties:
             if int(height[0]) <= actual_height <= int(height[1]):
                 flag = True
             try:
-                assert flag, f"Actual width {actual_height} is not in range of {int(height[0])} to {int(height[1])}"
+                if not flag:
+                    raise AssertionError(f"Actual width {actual_height} is not in range of {int(height[0])} to {int(height[1])}")
             except AssertionError as E:
                 print(E)
 
         elif operation == ">":
             height = int(height.replace('>', ''))
             try:
-                assert actual_height > height, f"Actual width {actual_height} is not greater than {height}"
+                if actual_height <= height:
+                    raise AssertionError(f"Actual width {actual_height} is not greater than {height}")
             except AssertionError as E:
                 print(E)
 
         elif operation == "<":
             height = int(height.replace('<', ''))
             try:
-                assert actual_height < height, f"Actual width {actual_height} is not lesser than {height}"
+                if actual_height >= height:
+                    raise AssertionError(f"Actual width {actual_height} is not lesser than {height}")
             except AssertionError as E:
                 print(E)
 
         elif operation == ">=":
             height = int(height.replace('>=', ''))
             try:
-                assert actual_height >= height, f"Actual width {actual_height} is lesser than {height}"
+                if actual_height < height:
+                    raise AssertionError(f"Actual width {actual_height} is lesser than {height}")
             except AssertionError as E:
                 print(E)
 
         elif operation == "<=":
             height = int(height.replace('<=', ''))
             try:
-                assert actual_height <= height, f"Actual width {actual_height} is greater than {height}"
+                if actual_height > height:
+                    raise AssertionError(f"Actual width {actual_height} is greater than {height}")
             except AssertionError as E:
                 print(E)
 
         elif height.strip().isnumeric():
             height = int(height)
             try:
-                assert actual_height - approx <= height <= actual_height + approx, f"Actual width is {actual_height}, got {height}"
+                if not actual_height - approx <= height <= actual_height + approx:
+                    raise AssertionError(f"Actual width is {actual_height}, got {height}")
             except AssertionError as E:
                 print(E)
 
@@ -588,7 +609,8 @@ class properties:
         element_size = self.get_size()
         actual_size = element_size['height'], element_size['width']
         try:
-            assert size == actual_size, f"Actual size is {actual_size}, got {size}"
+            if size != actual_size:
+                raise AssertionError(f"Actual size is {actual_size}, got {size}")
         except AssertionError as E:
             print(E)
         return self
@@ -603,7 +625,8 @@ class properties:
         """
         size = self.get_size()
         try:
-            assert size['width'] > size['height'], f"{self.element} is not positioned horizontally"
+            if size['width'] <= size['height']:
+                raise AssertionError(f"{self.element} is not positioned horizontally")
         except AssertionError as E:
             print(E)
         return self
@@ -617,7 +640,8 @@ class properties:
         """
         size = self.get_size()
         try:
-            assert size['height'] > size['width'], f"{self.element} is not positioned vertically"
+            if size['height'] <= size['width']:
+                raise AssertionError(f"{self.element} is not positioned vertically")
         except AssertionError as E:
             print(E)
         return self
@@ -630,7 +654,8 @@ class properties:
         """
         size = self.get_size()
         try:
-            assert size['height'] == size['width'], f"{self.element} is not squared in dimension"
+            if size['height'] != size['width']:
+                raise AssertionError(f"{self.element} is not squared in dimension")
         except AssertionError as E:
             print(E)
         return self
@@ -644,9 +669,11 @@ class properties:
         size = self.get_size()
         try:
             if size['height'] < size['width']:
-                assert (size['height'] / size['width']) * 100 <= 10, f"{self.element} is not squared"
+                if (size['height'] / size['width']) * 100 > 10:
+                    raise AssertionError(f"{self.element} is not squared")
             if size['width'] < size['height']:
-                assert (size['width'] / size['height']) * 100 <= 10, f"{self.element} is not squared"
+                if (size['width'] / size['height']) * 100 > 10:
+                    raise AssertionError(f"{self.element} is not squared")
         except AssertionError as E:
             print(E)
         return self
@@ -665,7 +692,8 @@ class properties:
         element_location = self.get_location()
         actual_location = element_location['x'], element_location['y']
         try:
-            assert actual_location == location, f"Actual location is {actual_location},got {location}"
+            if actual_location != location:
+                raise AssertionError(f"Actual location is {actual_location},got {location}")
         except AssertionError as E:
             print(E)
         return self
@@ -698,10 +726,10 @@ class properties:
                 parent_element_width = inside.get_width()
 
             try:
-                assert (parent_element_width - (
+                if not (parent_element_width - (
                         horizontal_loction + nested_element_width) - approx) <= horizontal_loction <= \
-                       (parent_element_width - (horizontal_loction + nested_element_width) + approx), \
-                    f"{self.element} is not centered horizontally inside {inside} " if inside == 'screen' else f"{self.element} is not centered horizontally inside {inside.element}"
+                       (parent_element_width - (horizontal_loction + nested_element_width) + approx):
+                    raise AssertionError(f"{self.element} is not centered horizontally inside {inside} " if inside == 'screen' else f"{self.element} is not centered horizontally inside {inside.element}")
             except AssertionError as E:
                 print(E)
 
@@ -739,10 +767,10 @@ class properties:
                 parent_element_height = inside.get_height()
 
             try:
-                assert parent_element_height - (
+                if not parent_element_height - (
                         vertical_location + nested_element_height) - approx <= vertical_location <= \
-                       parent_element_height - (vertical_location + nested_element_height) + approx, \
-                    f"{self.element} is not centered vertically inside {inside} " if inside == 'screen' else f"{self.element} is not centered vertically inside {inside.element}"
+                       parent_element_height - (vertical_location + nested_element_height) + approx:
+                    raise AssertionError(f"{self.element} is not centered vertically inside {inside} " if inside == 'screen' else f"{self.element} is not centered vertically inside {inside.element}")
             except AssertionError as E:
                 print(E)
 
@@ -778,9 +806,10 @@ class properties:
         else:
             parent_loc = parent.get_edges()
         try:
-            assert (child_loc[0] >= parent_loc[0] and child_loc[1] >= parent_loc[1] and child_loc[2] <= parent_loc[
+            if not (child_loc[0] >= parent_loc[0] and child_loc[1] >= parent_loc[1] and child_loc[2] <= parent_loc[
                 2] and child_loc[3] <= parent_loc[
-                        3]), f"{self.element} is not inside screen" if parent is None else f"{self.element} is not inside {parent.element}"
+                        3]):
+                raise AssertionError(f"{self.element} is not inside screen" if parent is None else f"{self.element} is not inside {parent.element}")
         except AssertionError as E:
             print(E)
         return self
@@ -808,9 +837,9 @@ class properties:
         child_loc = (child_loc['x'] + child_loc['width'] / 2), (child_loc['y'] + child_loc['height'] / 2)
         parent_loc = (parent_loc['x'] + parent_loc['width'] / 2), (parent_loc['y'] + parent_loc['height'] / 2)
         try:
-            assert (parent_loc[0] - approx <= child_loc[0] <= parent_loc[0] + approx) & \
-                   (parent_loc[1] - approx <= child_loc[1] <= parent_loc[1] + approx), \
-                    f"{self.element} is not centered inside screen" if inside is None else f"{self.element} is not centered inside {inside.element}"
+            if not (parent_loc[0] - approx <= child_loc[0] <= parent_loc[0] + approx) & \
+                   (parent_loc[1] - approx <= child_loc[1] <= parent_loc[1] + approx):
+                raise AssertionError(f"{self.element} is not centered inside screen" if inside is None else f"{self.element} is not centered inside {inside.element}")
         except AssertionError as E:
             print(E)
         return self
