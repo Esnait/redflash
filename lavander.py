@@ -14,7 +14,7 @@ def _find_element_(driver, element: tuple or list) -> WebElement:
 
         Returns: identified web element
     """
-    if type(element) == list:
+    if type(element) is list:
         exceptions = []
         element_found = None
 
@@ -30,7 +30,7 @@ def _find_element_(driver, element: tuple or list) -> WebElement:
         if len(exceptions) == len(element):
             raise Exception(exceptions)
 
-    elif type(element) == tuple:
+    elif type(element) is tuple:
         return driver.find_element(*element)
 
 
