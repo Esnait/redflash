@@ -51,7 +51,8 @@ class page:
         page._element_ = element
         self._set_dimension_()
 
-    def _set_dimension_(self, ) -> None:
+    @staticmethod
+    def _set_dimension_() -> None:
         """
         Sets the _width, height, x-offset, y-offset values by fetching actual element dimension
         """
@@ -268,7 +269,8 @@ class page:
             assert self.operand_x <= operand, self.error + f" lesser than or equals to {operand}" \
                 if error_message == "" else error_message
 
-    def check_width(self):
+    @staticmethod
+    def check_width():
         """
         Passes required arguments for the comparision operations for width of the element to compare class
 
@@ -276,7 +278,8 @@ class page:
         """
         return page.compare(page.WIDTH, f"Actual width {page.WIDTH} of {page._element_} is not")
 
-    def check_height(self):
+    @staticmethod
+    def check_height():
         """
         Passes required arguments for the comparision operations for height of the element to compare class
 
@@ -284,7 +287,8 @@ class page:
         """
         return page.compare(page.HEIGHT, f"Actual height {page.HEIGHT} of {page._element_} is not")
 
-    def check_top(self):
+    @staticmethod
+    def check_top():
         """
         Passes required arguments for the comparision operations for top of the element to compare class
 
@@ -292,7 +296,8 @@ class page:
         """
         return page.compare(page.TOP, f"Actual top {page.TOP} of {page._element_} is not")
 
-    def check_bottom(self):
+    @staticmethod
+    def check_bottom():
         """
         Passes required arguments for the comparision operations for bottom of the element to compare class
 
@@ -302,7 +307,8 @@ class page:
         bottom = body_height - (page.TOP + page.HEIGHT)
         return page.compare(bottom, f"Actual bottom {bottom} of {page._element_} is not")
 
-    def check_left(self):
+    @staticmethod
+    def check_left():
         """
         Passes required arguments for the comparision operations for left of the element to compare class
 
@@ -310,7 +316,8 @@ class page:
         """
         return page.compare(page.LEFT, f"Actual left {page.LEFT} of {page._element_} is not")
 
-    def check_right(self):
+    @staticmethod
+    def check_right():
         """
         Passes required arguments for the comparision operations for right of the element to compare class
 
@@ -320,7 +327,8 @@ class page:
         right = body_width - (page.LEFT + page.HEIGHT)
         return page.compare(right, f"Actual right {right} of {page._element_} is not")
 
-    def get_visibleport_dimension(self) -> dict:
+    @staticmethod
+    def get_visibleport_dimension() -> dict:
         """
         Gets the dimension of visible portion of the page
 
@@ -508,7 +516,8 @@ class page:
 
         return self
 
-    def is_centered(self, inside: tuple = (By.TAG_NAME, "body"), error_message: str = ""):
+    @staticmethod
+    def is_centered(inside: tuple = (By.TAG_NAME, "body"), error_message: str = ""):
         """
         Asserts the web element is centered vertically and horizontally inside the element passed as an argument
 
