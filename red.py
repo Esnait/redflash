@@ -2,8 +2,6 @@ from lavander import *
 from lavander import _find_element_
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver import Chrome
-from selenium.webdriver.remote.webelement import WebElement
 
 print("vanila")
 
