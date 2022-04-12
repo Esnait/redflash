@@ -472,18 +472,16 @@ class page:
         """
         if page._element_ == parent_element:
             raise Exception(f"Parent element  {parent_element} and nested element cannot be same")
+        another_dimension = _find_element_(page.driver, parent_element).rect
 
-        else:
-            another_dimension = _find_element_(page.driver, parent_element).rect
-
-            if not (page.LEFT >= round(another_dimension['x'], page._accuracy_) and \
+        if not (page.LEFT >= round(another_dimension['x'], page._accuracy_) and \
                    (page.LEFT + page.WIDTH) <= (round(another_dimension['x'], page._accuracy_) +
-                                                round(another_dimension['width'],
-                                                      page._accuracy_)) and page.TOP >= \
+                                            round(another_dimension['width'],
+                                                  page._accuracy_)) and page.TOP >= \
                    round(another_dimension['y'], page._accuracy_) and (page.TOP + page.HEIGHT) <= \
                    (round(another_dimension['y'], page._accuracy_) + round
-                   (another_dimension['height'], page._accuracy_))):
-                raise AssertionError(f"{page._element_} is not inside {parent_element}" \
+               (another_dimension['height'], page._accuracy_))):
+            raise AssertionError(f"{page._element_} is not inside {parent_element}" \
                     if error_message == "" else error_message)
 
         return self
@@ -500,13 +498,11 @@ class page:
         """
         if page._element_ == inside:
             raise Exception(f"Parent element  {inside} and nested element cannot be same")
-
-        else:
-            another_dimension = _find_element_(page.driver, inside).rect
-            actual_top = page.TOP - round(another_dimension['y'], page._accuracy_)
-            actual_bottom = round(another_dimension['height'], page._accuracy_) - (page.HEIGHT + actual_top)
-            if actual_top != actual_bottom:
-                raise AssertionError(f"{page._element_} is not centered vertically" if error_message == "" else error_message)
+        another_dimension = _find_element_(page.driver, inside).rect
+        actual_top = page.TOP - round(another_dimension['y'], page._accuracy_)
+        actual_bottom = round(another_dimension['height'], page._accuracy_) - (page.HEIGHT + actual_top)
+        if actual_top != actual_bottom:
+            raise AssertionError(f"{page._element_} is not centered vertically" if error_message == "" else error_message)
 
         return self
 
@@ -522,14 +518,11 @@ class page:
         """
         if page._element_ == inside:
             raise Exception(f"Parent element  {inside} and nested element cannot be same")
-
-
-        else:
-            another_dimension = _find_element_(page.driver, inside).rect
-            actual_left = page.LEFT - round(another_dimension['x'], page._accuracy_)
-            actual_right = round(another_dimension['width'], page._accuracy_) - (page.WIDTH + actual_left)
-            if actual_left != actual_right:
-                raise AssertionError(f"{page._element_} is not centered horizontally" if error_message == "" else error_message)
+        another_dimension = _find_element_(page.driver, inside).rect
+        actual_left = page.LEFT - round(another_dimension['x'], page._accuracy_)
+        actual_right = round(another_dimension['width'], page._accuracy_) - (page.WIDTH + actual_left)
+        if actual_left != actual_right:
+            raise AssertionError(f"{page._element_} is not centered horizontally" if error_message == "" else error_message)
 
         return self
 
@@ -546,15 +539,13 @@ class page:
         """
         if page._element_ == inside:
             raise Exception(f"Parent element  {inside} and nested element cannot be same")
+        another_dimension = _find_element_(page.driver, inside).rect
+        nested_element_center = (page.LEFT + (page.WIDTH / 2)), (page.TOP + (page.HEIGHT / 2))
+        parent_element_center = (round(another_dimension['x'], page._accuracy_) + (
+                round(another_dimension['width'], page._accuracy_) / 2)), (
+                                        round(another_dimension['y'], page._accuracy_) + (
+                                        round(another_dimension['height'], page._accuracy_) / 2))
 
-        else:
-            another_dimension = _find_element_(page.driver, inside).rect
-            nested_element_center = (page.LEFT + (page.WIDTH / 2)), (page.TOP + (page.HEIGHT / 2))
-            parent_element_center = (round(another_dimension['x'], page._accuracy_) + (
-                    round(another_dimension['width'], page._accuracy_) / 2)), (
-                                            round(another_dimension['y'], page._accuracy_) + (
-                                            round(another_dimension['height'], page._accuracy_) / 2))
-
-            if parent_element_center != nested_element_center:
-                raise AssertionError(f"{page._element_} is not centered inside " \
+        if parent_element_center != nested_element_center:
+            raise AssertionError(f"{page._element_} is not centered inside " \
                                                                    f"{inside}" if error_message == "" else error_message)
